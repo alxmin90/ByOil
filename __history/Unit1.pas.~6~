@@ -1,0 +1,98 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, ComObj;
+
+type
+  TForm1 = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
+    Label1: TLabel;
+    e0: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    e1: TEdit;
+    e2: TEdit;
+    Label5: TLabel;
+    e3: TEdit;
+    Азимут: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    e4: TEdit;
+    e5: TEdit;
+    e6: TEdit;
+    procedure Button2Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+const
+   xlCellTypeLastCell = $0000000B;
+
+var
+  Form1: TForm1;
+  ExcelApp, ExcelSheet: OLEVariant;
+  MyMass: Variant;
+  x, y: Integer;
+
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+
+begin
+ // создание OLE-объекта Excel
+   ExcelApp := CreateOleObject('Excel.Application');
+
+   // открытие книги Excel
+   ExcelApp.Workbooks.Open('..\xx.xls');
+
+   // открытие листа книги
+   //ExcelSheet := ExcelApp.Workbooks[1].WorkSheets[1];
+
+   // выделение последней задействованной ячейки на листе
+   ExcelSheet.Cells.SpecialCells(xlCellTypeLastCell).Activate;
+
+   // получение значений размера выбранного диапазона
+   x := ExcelApp.ActiveCell.Row;
+   y := ExcelApp.ActiveCell.Column;
+
+   // присвоение массиву диапазона ячеек на листе
+   //MyMass := ExcelApp.Range['A1', ExcelApp.Cells.Item[X, Y]].Value;
+
+   // закрытие книги и очистка переменных
+   ExcelApp.Quit;
+   ExcelApp := Unassigned;
+   ExcelSheet := Unassigned;
+
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var intkont: double;
+    a, b, c: integer;
+    s: string;
+    d: double;
+begin
+    intkont:= StrToFloat(e0.Text);
+
+    e2.Text := FloatToStr(intkont);
+    e5.Text := FloatToStr(x);
+    e6.Text := FloatToStr(y);
+    a:=1;
+    b:=1;
+    if a=b then
+      e3.Text := 'норма';
+
+end;
+
+end.
